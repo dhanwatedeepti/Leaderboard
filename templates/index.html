@@ -32,9 +32,15 @@
   </div>
 
   <script>
-    async function fetchLeaderboard() {
+  async function fetchLeaderboard() {
+    try {
       const response = await fetch('/api/Leaderboard');
       const players = await response.json();
+
+      if (players.error) {
+        document.body.innerHTML += `<p class="text-red-400 font-bold text-center mt-4">${players.error}</p>`;
+        return;
+      }
 
       const topPlayersDiv = document.getElementById('top-players');
       const otherPlayersDiv = document.getElementById('other-players');
@@ -45,19 +51,20 @@
       const ranks = ["1st", "2nd", "3rd"];
       const borders = ["gold-border", "silver-border", "bronze-border"];
       const ribbons = ["bg-yellow-400", "bg-gray-300", "bg-orange-500"];
-      const trophies = ["\u{1F3C6}", "\u{1F948}", "\u{1F949}"]; // Gold, Silver, Bronze trophies
-
-      const order = [1, 0, 2]; // middle first, then left and right
+      const trophies = ["🏆", "🥈", "🥉"];
+      const order = [1, 0, 2]; // Center (1st), Left (2nd), Right (3rd)
 
       order.forEach((pos, index) => {
         const player = topThree[pos];
-        const size = pos === 1 ? "w-24 h-24" : pos === 2 ? "w-24 h-24" : "w-32 h-32";
+        if (!player) return; // in case there are < 3 players
+
+        const size = pos === 1 ? "w-28 h-28" : "w-24 h-24";
         const z = pos === 1 ? "z-10" : "z-0";
 
         topPlayersDiv.innerHTML += `
           <div class="text-center ${z} hover-highlight">
             <div class="relative flex justify-center">
-              <div class="${size} rounded-full bg-pink-400 ${borders[pos]} flex items-center justify-center text-2xl">
+              <div class="${size} rounded-full bg-pink-400 ${borders[pos]} flex items-center justify-center text-3xl shadow-lg">
                 ${trophies[pos]}
                 <div class="absolute -bottom-3 px-2 py-1 text-sm text-black font-semibold rounded-full ${ribbons[pos]}">${ranks[pos]}</div>
               </div>
@@ -74,9 +81,15 @@
         div.textContent = `${i + 4}th - ${player.name} - ${player.score}`;
         otherPlayersDiv.appendChild(div);
       });
-    }
 
-    fetchLeaderboard();
-  </script>
+    } catch (error) {
+      document.body.innerHTML += `<p class="text-red-400 font-bold text-center mt-4">Error loading leaderboard. Please try again later.</p>`;
+      console.error('Leaderboard Fetch Error:', error);
+    }
+  }
+
+  fetchLeaderboard();
+</script>
+
 </body>
 </html>
