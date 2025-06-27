@@ -5,7 +5,7 @@ import pandas as pd
 app = Flask(__name__, template_folder='templates')  # Make sure HTML is in /templates
 CORS(app)
 
-EXCEL_FILE = 'Leaderboard.xlsx'
+EXCEL_FILE = 'leaderboard/Leaderboard.xlsx'
 
 @app.route('/')
 def home():
@@ -23,5 +23,5 @@ def leaderboard():
 import os
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Use Render's assigned port
+    port = int(os.environ.get('PORT', 5000))  # Render gives a random port
     app.run(host='0.0.0.0', port=port, debug=True)
