@@ -13,12 +13,18 @@ def home():
 
 @app.route('/api/Leaderboard')
 def leaderboard():
-    df = pd.read_excel(EXCEL_FILE, sheet_name="users")
-    df = df[['Name', 'Score', 'Email']].sort_values(by='Score', ascending=False)
-    players = df.to_dict(orient='records')
-    return jsonify([
-        {"name": p['Name'], "score": int(p['Score']), "email": p['Email']} for p in players
-    ])
+    try:
+        df = pd.read_excel('leaderboard/Leaderboard.xlsx')  # Path must match your repo
+        # Check required columns
+        if not all(col in df.columns for col in ['Name', 'Score', 'Email']):
+            return jsonify({"error": "Missing one or more required columns: Name, Score, Email"}), 400
+        df = df[['Name', 'Score', 'Email']].sort_values(by='Score', ascending=False)
+        players = df.to_dict(orient='records')
+        return jsonify([
+            {"name": p['Name'], "score": int(p['Score']), "email": p['Email']} for p in players
+        ])
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 import os
 
