@@ -20,5 +20,8 @@ def leaderboard():
         {"name": p['Name'], "score": int(p['Score']), "email": p['Email']} for p in players
     ])
 
+import os
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Use Render's assigned port
+    app.run(host='0.0.0.0', port=port, debug=True)
