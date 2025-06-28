@@ -14,7 +14,9 @@ def home():
 @app.route('/api/Leaderboard')
 def leaderboard():
     try:
-        df = pd.read_excel('Leaderboard.xlsx')
+        
+        EXCEL_FILE = 'Leaderboard.xlsx'
+        df = pd.read_excel(EXCEL_FILE)
         # Check required columns
         if not all(col in df.columns for col in ['Name', 'Score', 'Email']):
             return jsonify({"error": "Missing one or more required columns: Name, Score, Email"}), 400
