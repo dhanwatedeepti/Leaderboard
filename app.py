@@ -14,19 +14,29 @@ def home():
 @app.route('/api/Leaderboard')
 def leaderboard():
     try:
-        
-        EXCEL_FILE = 'Leaderboard.xlsx'
         df = pd.read_excel(EXCEL_FILE)
-        # Check required columns
-        if not all(col in df.columns for col in ['Name', 'Score', 'Email']):
-            return jsonify({"error": "Missing one or more required columns: Name, Score, Email"}), 400
-        df = df[['Name', 'Score', 'Email']].sort_values(by='Score', ascending=False)
+
+        # DEBUG PRINT: Shows what headers pandas sees
+        print("🔥 Headers in Excel file:", df.columns.tolist())
+
+        required = ['Name', 'Score', 'Email']
+        missing = [col for col in required if col not in df.columns]
+
+        if missing:
+            return jsonify({
+                "error": f"Missing column(s): {missing}. Found: {df.columns.tolist()}"
+            }), 400
+
+        df = df[required].sort_values(by='Score', ascending=False)
         players = df.to_dict(orient='records')
+
         return jsonify([
             {"name": p['Name'], "score": int(p['Score']), "email": p['Email']} for p in players
         ])
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
 
 import os
 
