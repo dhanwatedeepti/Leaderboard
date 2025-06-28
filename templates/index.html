@@ -38,7 +38,8 @@
       const players = await response.json();
 
       if (players.error) {
-        document.body.innerHTML += `<p class="text-red-400 font-bold text-center mt-4">${players.error}</p>`;
+        document.body.innerHTML += `<p class="text-red-400 font-bold text-center mt-4">${players.error}</p
+          >`;
         return;
       }
 
