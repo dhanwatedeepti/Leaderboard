@@ -58,8 +58,9 @@
         const player = topThree[pos];
         if (!player) return; // in case there are < 3 players
 
-        const size = index === 0 ? "w-28 h-28" : "w-24 h-24";
-        const z = pos === 1 ? "z-10" : "z-0";
+        const size = index === 1 ? "w-28 h-28" : "w-24 h-24";
+        const z = index === 1 ? "z-10" : "z-0";
+
 
         topPlayersDiv.innerHTML += `
           <div class="text-center ${z} hover-highlight">
