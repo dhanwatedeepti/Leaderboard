@@ -5,7 +5,7 @@ import pandas as pd
 app = Flask(__name__, template_folder='templates')  # Make sure HTML is in /templates
 CORS(app)
 
-EXCEL_FILE = 'leaderboard/Leaderboard.xlsx'
+EXCEL_FILE = 'Leaderboard.xlsx'
 
 @app.route('/')
 def home():
@@ -14,7 +14,7 @@ def home():
 @app.route('/api/Leaderboard')
 def leaderboard():
     try:
-        df = pd.read_excel('leaderboard/Leaderboard.xlsx')  # Path must match your repo
+        df = pd.read_excel('Leaderboard.xlsx')
         # Check required columns
         if not all(col in df.columns for col in ['Name', 'Score', 'Email']):
             return jsonify({"error": "Missing one or more required columns: Name, Score, Email"}), 400
