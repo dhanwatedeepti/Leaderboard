@@ -14,7 +14,8 @@ def home():
 @app.route('/api/Leaderboard')
 def leaderboard():
     try:
-        df = pd.read_excel('leaderboard/Leaderboard.xlsx')  # Path must match your repo
+        df = pd.read_excel('Leaderboard.xlsx')  # Path must match your repo
+        
         # Check required columns
         if not all(col in df.columns for col in ['Name', 'Score', 'Email']):
             return jsonify({"error": "Missing one or more required columns: Name, Score, Email"}), 400
