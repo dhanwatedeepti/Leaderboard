@@ -38,8 +38,7 @@
       const players = await response.json();
 
       if (players.error) {
-        document.body.innerHTML += `<p class="text-red-400 font-bold text-center mt-4">${players.error}</p
-          >`;
+        document.body.innerHTML += `<p class="text-red-400 font-bold text-center mt-4">${players.error}</p>`;
         return;
       }
 
@@ -59,7 +58,7 @@
         const player = topThree[pos];
         if (!player) return; // in case there are < 3 players
 
-        const size = pos === 1 ? "w-28 h-28" : "w-24 h-24";
+        const size = index === 0 ? "w-28 h-28" : "w-24 h-24";
         const z = pos === 1 ? "z-10" : "z-0";
 
         topPlayersDiv.innerHTML += `
