@@ -46,8 +46,9 @@
         const topThree = players.slice(0, 3);
         const rest = players.slice(3);
 
-        const borders = ["silver-border", "gold-border", "bronze-border"];
-        const order = [1, 0, 2]; // Center (1st), Left (2nd), Right (3rd)
+        const borders = ["gold-border", "silver-border", "bronze-border"];
+        const order = [1, 0, 2]; // Correct: 1st in center, 2nd left, 3rd right
+
 
         order.forEach((pos, index) => {
           const player = topThree[pos];
